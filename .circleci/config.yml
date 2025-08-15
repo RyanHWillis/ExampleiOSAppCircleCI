@@ -21,9 +21,12 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: git status
-      - run: git log -1
-      - run: ls -R
+      - run:
+          name: Ensure full history
+          command: |
+            git fetch --unshallow || true
+            git fetch --all
+
       - run: fastlane scan # Run tests using Fastlane
 
       # Collect XML test results data to show in the UI, and save the same XML
